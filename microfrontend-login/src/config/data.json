@@ -1,0 +1,21 @@
+{
+    "img": "/login/background.png",
+    "title": "Acesse",
+    "inputs": [
+        {
+            "type": "text",
+            "placeholder": "Digite seu usuário",
+            "name": "username"
+        },
+        {
+            "type": "password",
+            "placeholder": "Digite sua senha",
+            "name": "password"
+        },
+        {
+            "type": "checkbox",
+            "label": "Manter conectado",
+            "name": "rememberMe"
+        }
+    ]
+}
