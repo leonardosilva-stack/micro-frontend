@@ -1,0 +1,118 @@
+<div class="container">
+  <div class="card">
+    <div class="header">
+      <div class="flex gap-2">
+        <button class="back-button" (click)="goBack()">
+          <i class="pi pi-chevron-left"></i>
+        </button>
+        <h1 class="title">Compania</h1>
+      </div>
+      <button class="add-company-button" (click)="showAddCompanyDialog()">
+        Adicionar Nova Companhia
+      </button>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-12 p-md-4">
+        <input type="text" pInputText placeholder="Search by name" (input)="applyFilter($event)">
+      </div>
+    </div>
+
+    <p-table [value]="filteredCompanies" [paginator]="true" [rows]="5" [filterDelay]="0">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+          <th pSortableColumn="name">Nome <p-sortIcon field="name"></p-sortIcon></th>
+          <th pSortableColumn="companyName">Empresa <p-sortIcon field="companyName"></p-sortIcon></th>
+          <th pSortableColumn="collaboratorsCount">Colaboradores <p-sortIcon field="collaboratorsCount"></p-sortIcon>
+          </th>
+          <th pSortableColumn="isActive">Ativo <p-sortIcon field="isActive"></p-sortIcon></th>
+          <th pSortableColumn="lastSubmit">Última Submissão <p-sortIcon field="lastSubmit"></p-sortIcon></th>
+          <th>Ações</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-company>
+        <tr>
+          <td>{{ company.id }}</td>
+          <td>{{ company.name }}</td>
+          <td>{{ company.companyName }}</td>
+          <td>{{ company.collaboratorsCount }}</td>
+          <td>{{ company.isActive ? 'Sim' : 'Não' }}</td>
+          <td>{{ company.lastSubmit }}</td>
+          <td>
+            <button pButton type="button" icon="pi pi-pencil" class="action-button edit-button"
+              (click)="editCompany(company)"></button>
+            <button pButton type="button" icon="pi pi-trash" class="action-button delete-button"
+              (click)="deleteCompany(company.id)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <p-dialog header="Adicionar Nova Companhia" [(visible)]="displayAddDialog" [modal]="true"
+      [style]="{ width: '50vw' }">
+      <form (ngSubmit)="addCompany()">
+        <div class="p-field">
+          <label for="name">Nome</label>
+          <input id="name" type="text" pInputText [(ngModel)]="newCompany.name" name="name" required>
+        </div>
+        <div class="p-field">
+          <label for="companyName">Empresa</label>
+          <input id="companyName" type="text" pInputText [(ngModel)]="newCompany.companyName" name="companyName"
+            required>
+        </div>
+        <div class="p-field">
+          <label for="collaboratorsCount">Colaboradores</label>
+          <input id="collaboratorsCount" type="number" pInputText [(ngModel)]="newCompany.collaboratorsCount"
+            name="collaboratorsCount" required>
+        </div>
+        <div class="p-field">
+          <label for="isActive">Ativo</label>
+          <input id="isActive" type="checkbox" pInputText [(ngModel)]="newCompany.isActive" name="isActive">
+        </div>
+        <div class="p-field">
+          <label for="lastSubmit">Última Submissão</label>
+          <input id="lastSubmit" type="date" pInputText [(ngModel)]="newCompany.lastSubmit" name="lastSubmit" required>
+        </div>
+        <p-footer>
+          <button type="button" pButton label="Cancelar" icon="pi pi-times" (click)="displayAddDialog = false">
+          </button>
+          <button type="submit" pButton label="Adicionar" icon="pi pi-check"></button>
+        </p-footer>
+      </form>
+    </p-dialog>
+
+    <p-dialog header="Editar Companhia" [(visible)]="displayEditDialog" [modal]="true" [style]="{ width: '50vw' }">
+      <form (ngSubmit)="updateCompany()">
+        <div class="p-field">
+          <label for="editName">Nome</label>
+          <input id="editName" type="text" pInputText [(ngModel)]="companyToEdit.name" name="name" required>
+        </div>
+        <div class="p-field">
+          <label for="editCompanyName">Empresa</label>
+          <input id="editCompanyName" type="text" pInputText [(ngModel)]="companyToEdit.companyName" name="companyName"
+            required>
+        </div>
+        <div class="p-field">
+          <label for="editCollaboratorsCount">Colaboradores</label>
+          <input id="editCollaboratorsCount" type="number" pInputText [(ngModel)]="companyToEdit.collaboratorsCount"
+            name="collaboratorsCount" required>
+        </div>
+        <div class="p-field">
+          <label for="editIsActive">Ativo</label>
+          <input id="editIsActive" type="checkbox" pInputText [(ngModel)]="companyToEdit.isActive" name="isActive">
+        </div>
+        <div class="p-field">
+          <label for="editLastSubmit">Última Submissão</label>
+          <input id="editLastSubmit" type="date" pInputText [(ngModel)]="companyToEdit.lastSubmit" name="lastSubmit"
+            required>
+        </div>
+        <p-footer>
+          <button type="button" pButton label="Cancelar" icon="pi pi-times" (click)="displayEditDialog = false">
+          </button>
+          <button type="submit" pButton label="Salvar" icon="pi pi-check"></button>
+        </p-footer>
+      </form>
+    </p-dialog>
+  </div>
+</div>
