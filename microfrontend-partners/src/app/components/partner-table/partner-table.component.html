@@ -1,0 +1,127 @@
+<div class="container">
+  <div class="card">
+    <div class="header">
+      <div class="flex gap-2">
+        <button class="back-button" (click)="goBack()">
+          <i class="pi pi-chevron-left"></i>
+        </button>
+        <h1 class="title">Parceiros</h1>
+      </div>
+      <button class="add-partner-button" (click)="showAddPartnerDialog()">
+        Adicionar Novo Parceiro
+      </button>
+    </div>
+
+    <div class="p-grid">
+      <div class="p-col-12 p-md-4">
+        <input type="text" pInputText placeholder="Search by name" (input)="applyFilter($event)">
+      </div>
+    </div>
+
+    <p-table [value]="filteredPartners" [paginator]="true" [rows]="5" [filterDelay]="0">
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
+          <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+          <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+          <th pSortableColumn="repositoryGit">Repository <p-sortIcon field="repositoryGit"></p-sortIcon></th>
+          <th pSortableColumn="urlDoc">Documentation <p-sortIcon field="urlDoc"></p-sortIcon></th>
+          <th pSortableColumn="clients">Clients <p-sortIcon field="clients"></p-sortIcon></th>
+          <th pSortableColumn="projects">Projects <p-sortIcon field="projects"></p-sortIcon></th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-partner>
+        <tr>
+          <td>{{ partner.id }}</td>
+          <td>{{ partner.name }}</td>
+          <td>{{ partner.description }}</td>
+          <td><a class="no-underline text-gray-900 hover:text-primary" [href]="partner.repositoryGit" target="_blank">{{
+              partner.repositoryGit }}</a></td>
+          <td><a class="no-underline text-gray-900 hover:text-primary" [href]="partner.urlDoc" target="_blank">{{
+              partner.urlDoc }}</a></td>
+          <td>{{ partner.clients.length }}</td>
+          <td>{{ partner.projects.length }}</td>
+          <td>
+            <button pButton type="button" icon="pi pi-pencil" class="action-button edit-button"
+              (click)="editPartner(partner)"></button>
+            <button pButton type="button" icon="pi pi-trash" class="action-button delete-button"
+              (click)="deletePartner(partner.id)"></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <p-dialog header="Adicionar Novo Parceiro" [(visible)]="displayAddDialog" [modal]="true"
+      [style]="{ width: '50vw' }">
+      <form (ngSubmit)="addPartner()">
+        <div class="p-field">
+          <label for="name">Name</label>
+          <input id="name" type="text" pInputText [(ngModel)]="newPartner.name" name="name" required>
+        </div>
+        <div class="p-field">
+          <label for="description">Description</label>
+          <input id="description" type="text" pInputText [(ngModel)]="newPartner.description" name="description"
+            required>
+        </div>
+        <div class="p-field">
+          <label for="repositoryGit">Repository Git</label>
+          <input id="repositoryGit" type="text" pInputText [(ngModel)]="newPartner.repositoryGit" name="repositoryGit"
+            required>
+        </div>
+        <div class="p-field">
+          <label for="urlDoc">Documentation URL</label>
+          <input id="urlDoc" type="text" pInputText [(ngModel)]="newPartner.urlDoc" name="urlDoc" required>
+        </div>
+        <div class="p-field">
+          <label for="clients">Clients</label>
+          <input id="clients" type="text" pInputText [(ngModel)]="newPartner.clients" name="clients">
+        </div>
+        <div class="p-field">
+          <label for="projects">Projects</label>
+          <input id="projects" type="text" pInputText [(ngModel)]="newPartner.projects" name="projects">
+        </div>
+        <p-footer>
+          <button type="button" pButton label="Cancel" icon="pi pi-times" (click)="displayAddDialog = false"></button>
+          <button type="submit" pButton label="Adicionar" icon="pi pi-check"></button>
+        </p-footer>
+      </form>
+    </p-dialog>
+
+    <p-dialog header="Edit Partner" [(visible)]="displayEditDialog" [modal]="true" [style]="{ width: '50vw' }">
+      <form (ngSubmit)="updatePartner()">
+        <div class="p-field">
+          <label for="name">Name</label>
+          <input id="name" type="text" pInputText [(ngModel)]="partnerToEdit.name" name="name" required>
+        </div>
+        <div class="p-field">
+          <label for="description">Description</label>
+          <input id="description" type="text" pInputText [(ngModel)]="partnerToEdit.description" name="description"
+            required>
+        </div>
+        <div class="p-field">
+          <label for="repositoryGit">Repository Git</label>
+          <input id="repositoryGit" type="text" pInputText [(ngModel)]="partnerToEdit.repositoryGit"
+            name="repositoryGit" required>
+        </div>
+        <div class="p-field">
+          <label for="urlDoc">Documentation URL</label>
+          <input id="urlDoc" type="text" pInputText [(ngModel)]="partnerToEdit.urlDoc" name="urlDoc" required>
+        </div>
+        <div class="p-field">
+          <label for="clients">Clients</label>
+          <input id="clients" type="text" pInputText [(ngModel)]="partnerToEdit.clients" name="clients">
+        </div>
+        <div class="p-field">
+          <label for="projects">Projects</label>
+          <input id="projects" type="text" pInputText [(ngModel)]="partnerToEdit.projects" name="projects">
+        </div>
+        <p-footer>
+          <button type="button" pButton label="Cancel" icon="pi pi-times" (click)="displayEditDialog = false"></button>
+          <button type="submit" pButton label="Save" icon="pi pi-check"></button>
+        </p-footer>
+      </form>
+    </p-dialog>
+
+  </div>
+</div>
